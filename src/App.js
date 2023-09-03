@@ -3,7 +3,7 @@ import Table from './components/Table';
 
 function App() {
   return (
-    <div className="main-container">
+    <div className="main-container" data-testid="main-container">
       <Table />
     </div>
   );
