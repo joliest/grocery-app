@@ -58,5 +58,8 @@ describe('<BasicTable /> component', () => {
         await waitFor(() => {
             expect(utils.getColumnCell(cell)).toBeInTheDocument();
         });
-    })
+    });
+    it('should render upload csv button', () => {
+        expect(screen.getByTestId('upload-csv-button')).toBeInTheDocument();
+    });
 });

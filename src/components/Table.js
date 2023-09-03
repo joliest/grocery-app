@@ -7,9 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import UploadCsvButton from './form/inputs/UploadCsvButton';
 
 const BasicTable = () => {
     const [products, setProducts] = useState(null);
+    const [csvData, setCsvData] = useState([]);
     useEffect(() => {
         const getProducts = async () => {
             let fetchedProducts = [];
@@ -26,6 +28,9 @@ const BasicTable = () => {
             });
         }
     }, [products]);
+
+    const handleFileChange = data => setCsvData(data);
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -57,6 +62,7 @@ const BasicTable = () => {
                     ))}
                 </TableBody>
             </Table>
+            <UploadCsvButton onFileChange={handleFileChange} />
         </TableContainer>
     );
 }
