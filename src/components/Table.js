@@ -21,7 +21,7 @@ const BasicTable = () => {
             return fetchedProducts;
         }
         if (!products) {
-            getProducts().then(fetchedProducts => {
+            getProducts().then((fetchedProducts = {}) => {
                 setProducts(fetchedProducts.data);
             });
         }
@@ -41,14 +41,12 @@ const BasicTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {products && products.map((product) => (
+                    {products?.map((product) => (
                         <TableRow
                             key={product.name}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">
-                                {product.name}
-                            </TableCell>
+                            <TableCell>{product.name}</TableCell>
                             <TableCell align="right">{product.price}</TableCell>
                             <TableCell align="right">{product.store}</TableCell>
                             <TableCell align="right">{product.category}</TableCell>
