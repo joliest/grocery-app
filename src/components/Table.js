@@ -32,38 +32,40 @@ const BasicTable = () => {
     const handleFileChange = data => setCsvData(data);
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Price</TableCell>
-                        <TableCell align="right">Store</TableCell>
-                        <TableCell align="right">Category</TableCell>
-                        <TableCell align="right">Sub Category</TableCell>
-                        <TableCell align="right">Reference</TableCell>
-                        <TableCell align="right">Date Purchased</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {products?.map((product) => (
-                        <TableRow
-                            key={product.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell>{product.name}</TableCell>
-                            <TableCell align="right">{product.price}</TableCell>
-                            <TableCell align="right">{product.store}</TableCell>
-                            <TableCell align="right">{product.category}</TableCell>
-                            <TableCell align="right">{product.subCategory}</TableCell>
-                            <TableCell align="right">{product.link}</TableCell>
-                            <TableCell align="right">{product.datePurchased}</TableCell>
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="right">Store</TableCell>
+                            <TableCell align="right">Category</TableCell>
+                            <TableCell align="right">Sub Category</TableCell>
+                            <TableCell align="right">Reference</TableCell>
+                            <TableCell align="right">Date Purchased</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHead>
+                    <TableBody>
+                        {products?.map((product) => (
+                            <TableRow
+                                key={product.name}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell>{product.name}</TableCell>
+                                <TableCell align="right">{product.price}</TableCell>
+                                <TableCell align="right">{product.store}</TableCell>
+                                <TableCell align="right">{product.category}</TableCell>
+                                <TableCell align="right">{product.subCategory}</TableCell>
+                                <TableCell align="right">{product.link}</TableCell>
+                                <TableCell align="right">{product.datePurchased}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             <UploadCsvButton onFileChange={handleFileChange} />
-        </TableContainer>
+        </>
     );
 }
 
