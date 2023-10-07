@@ -1,6 +1,6 @@
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import UploadCsvButton from './UploadCsvButton';
-import csvHelper from '../../helpers/csvHelper';
+import csvHelper from '../../../helpers/csvHelper';
 
 const setup = (props = {}) => {
     const onFileChange = jest.fn();

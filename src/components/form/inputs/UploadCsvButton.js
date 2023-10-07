@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {Button} from '@mui/material';
-import csvHelper from '../../helpers/csvHelper';
+import csvHelper from '../../../helpers/csvHelper';
 
 const UploadCsvButton = (props) => {
     const handleFileChange = async (e) => {
@@ -9,7 +9,6 @@ const UploadCsvButton = (props) => {
             const file = e.target.files[0];
             try {
                 const data = await csvHelper.getCsvFileData(file);
-                console.log(data)
                 props.onFileChange(data);
             } catch (e) {
                 props.onFileChange([]);
