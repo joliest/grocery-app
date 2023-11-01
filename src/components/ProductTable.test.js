@@ -1,23 +1,19 @@
 import BasicTable from './ProductTable';
-import axios from 'axios';
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import csvHelper from '../helpers/csvHelper';
+import * as useProducts from '../hooks/useProducts';
 
-jest.mock('axios');
-
-const mockGetProducts = () => {
-    axios.get.mockImplementation(() => {
-        return Promise.resolve({
-            data: [{
-                name: 'Product Name 1',
-                price: 120,
-                store: 'SM Manila',
-                category: 'Category',
-                subCategory: 'Sub Category',
-                link: 'http://product-link/1',
-                datePurchased: '2023-04-21',
-            }],
-        });
+const mockUseProducts = () => {
+    jest.spyOn(useProducts, 'default').mockReturnValue({
+        products: [{
+            name: 'Product Name 1',
+            price: 120,
+            store: 'SM Manila',
+            category: 'Category',
+            subCategory: 'Sub Category',
+            link: 'http://product-link/1',
+            datePurchased: '2023-04-21',
+        }],
     });
 }
 
@@ -48,7 +44,7 @@ const setup = () => {
 describe('<ProductTable /> component', () => {
     let utils;
     beforeEach(() => {
-        mockGetProducts();
+        mockUseProducts();
         mockResolvedGetCsvFileData();
         (utils = setup());
     });
@@ -79,9 +75,6 @@ describe('<ProductTable /> component', () => {
     });
     it('should render upload csv button', () => {
         expect(screen.getByTestId('upload-csv-button')).toBeInTheDocument();
-    });
-    it('gets products', () => {
-        expect(axios.get).toHaveBeenCalledWith('http://localhost:8080/v1/products')
     });
     describe('modal', () => {
         describe('when file is uploaded', () => {
