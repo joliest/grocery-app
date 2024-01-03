@@ -119,4 +119,86 @@ describe('Csv Helper', () => {
             });
         });
     });
+
+    describe('convert csv to js', () => {
+        it('converts array of arrays to JS Object', () => {
+            // when
+            const actual = uploadHelper.convertCsvToJs(sampleCsvData);
+
+            // then
+            const expected = [{
+                name: 'Product 1',
+                price: 12,
+                store: 'Sm Pampanga',
+                category: 'Category',
+                subcategory: 'Sub Category',
+                link: 'http://link/1',
+                datePurchased: '4-21-92',
+            }, {
+                name: 'Product 2',
+                price: 14,
+                store: 'Mall of Asia',
+                category: 'Category 2',
+                subcategory: 'Sub Category 2',
+                link: '',
+                datePurchased: '9-21-23',
+            }, {
+                name: '',
+                price: 14,
+                store: '',
+                category: '',
+                subcategory: '',
+                link: '',
+                datePurchased: '',
+            }];
+            expect(expected).toEqual(actual)
+        });
+        describe('key names is provided', () => {
+            it('includes fields that are in the key names list', () => {
+                // given
+                const productMap = {
+                    name: {
+                        type: 'text',
+                    },
+                    price: {
+                        type: 'number',
+                    },
+                    category: {
+                        type: 'text',
+                    },
+                    subcategory: {
+                        type: 'text',
+                    },
+                    datePurchased: {
+                        type: 'text',
+                    },
+                };
+
+                // when
+                const actual = uploadHelper.convertCsvToJs(sampleCsvData, productMap);
+
+                // then
+                const expected = [{
+                    name: 'Product 1',
+                    price: 12,
+                    category: 'Category',
+                    subcategory: 'Sub Category',
+                    datePurchased: '4-21-92',
+                }, {
+                    name: 'Product 2',
+                    price: 14,
+                    category: 'Category 2',
+                    subcategory: 'Sub Category 2',
+                    datePurchased: '9-21-23',
+                }, {
+                    name: '',
+                    price: 14,
+                    category: '',
+                    subcategory: '',
+                    datePurchased: '',
+                }];
+                expect(expected).toEqual(actual)
+            });
+        });
+    });
 });

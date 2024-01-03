@@ -3,13 +3,15 @@ import UploadCsvPreviewModal from './UploadCsvPreviewModal';
 
 const setup = (props) => {
     const setOpen = jest.fn();
+    const onSave = jest.fn();
     const getTableRowByNumber = number => screen.getAllByRole('rowgroup')[number];
     const utils = render(
-        <UploadCsvPreviewModal setOpen={setOpen} open={false} {...props} />
+        <UploadCsvPreviewModal setOpen={setOpen} open={false} onSave={onSave} {...props} />
     );
     return {
         ...utils,
         setOpen,
+        onSave,
         getTableRowByNumber,
     };
 }
@@ -42,8 +44,18 @@ describe('<UploadCsvPreviewModal />', () => {
         });
         describe('when close button is clicked', () => {
             it('sets open with false', () => {
+                fireEvent.click(screen.getByTestId('close-icon'));
+                expect(utils.setOpen).toHaveBeenCalledWith(false);
+            });
+        });
+        describe('when save button is clicked', () => {
+            it('sets open with false', () => {
                 fireEvent.click(screen.getByText('Save changes'));
                 expect(utils.setOpen).toHaveBeenCalledWith(false);
+            });
+            it('calls on save', () => {
+                fireEvent.click(screen.getByText('Save changes'));
+                expect(utils.onSave).toHaveBeenCalled();
             });
         });
         describe('table', () => {

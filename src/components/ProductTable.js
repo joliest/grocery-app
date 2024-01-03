@@ -3,6 +3,9 @@ import UploadCsvButton from './form/inputs/UploadCsvButton';
 import UploadCsvPreviewModal from './modals/UploadCsvPreviewModal';
 import GenericTable from './subcomponent/GenericTable';
 import useProducts from '../hooks/useProducts';
+import csvHelper from '../helpers/csvHelper';
+import {productMap} from '../constants/keyNames';
+import productsApi from '../api/productsApi';
 
 const PRODUCT_HEADER = ['Name', 'Price', 'Store', 'Category', 'Sub Category', 'Reference', 'Date Purchased'];
 const buildTable = (products) => {
@@ -15,7 +18,7 @@ const buildTable = (products) => {
                 product?.price,
                 product?.store,
                 product?.category,
-                product?.subCategory,
+                product?.subcategory,
                 product?.link,
                 product?.datePurchased,
             ];
@@ -36,6 +39,15 @@ const ProductTable = () => {
         setCsvData(data);
         handleSetModalOpen(true);
     };
+
+    const handleOnSave = () => {
+        const productsFromCsv = csvHelper.convertCsvToJs(csvData, productMap);
+        productsApi.postProducts(productsFromCsv)
+            .then(() => {
+                window.location.reload();
+            });
+    }
+
     return (
         <>
             <GenericTable data={buildTable(products)} />
@@ -43,6 +55,7 @@ const ProductTable = () => {
                 setOpen={handleSetModalOpen}
                 open={isModalOpen}
                 data={csvData}
+                onSave={handleOnSave}
             />
             <UploadCsvButton onFileChange={handleFileChange} />
         </>

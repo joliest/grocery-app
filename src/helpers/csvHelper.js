@@ -1,3 +1,4 @@
+import {productMap} from '../constants/keyNames';
 
 const BLANK = '';
 const valueIsEmpty = str => ['\r', BLANK].some(emptyValue => emptyValue === str);
@@ -51,11 +52,31 @@ const getCleanCsvRows = (data = []) => {
     }, []);
 };
 
+
+const convertCsvToJs = (csvData, keyNames = {}) => {
+    const fieldNames = getCsvHeaders(csvData);
+    const fieldValues = getCleanCsvRows(csvData);
+    return fieldValues.map(values => {
+        const toJsObject = (acc, currentName, currentIndex) => {
+            const isValidKey = Object.keys(keyNames).length
+                ? keyNames[currentName]
+                : true;
+            if (!isValidKey) return acc;
+            const value = currentName === 'price'
+                ? Number(values[currentIndex])
+                : values[currentIndex];
+            return {...acc, [currentName]: value};
+        };
+        return fieldNames.reduce(toJsObject, {});
+    });
+}
+
 const csvHelpers = {
     getCsvFileData,
     getCsvHeaders,
     getCsvRows,
     getCleanCsvRows,
+    convertCsvToJs,
 }
 
 export default csvHelpers;

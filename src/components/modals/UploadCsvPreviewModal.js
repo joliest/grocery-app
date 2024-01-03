@@ -18,10 +18,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const UploadCsvPreviewModal = ({ setOpen, open, data = [] }) => {
+const UploadCsvPreviewModal = ({ setOpen, open, onSave, data = [] }) => {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleOnSave = () => {
+        onSave();
+        handleClose();
+    }
     return (
         <BootstrapDialog
             onClose={handleClose}
@@ -42,13 +46,13 @@ const UploadCsvPreviewModal = ({ setOpen, open, data = [] }) => {
                     color: (theme) => theme.palette.grey[500],
                 }}
             >
-                <CloseIcon />
+                <CloseIcon data-testid="close-icon" />
             </IconButton>
             <DialogContent dividers>
                 <Table data={data} />
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={handleClose}>
+                <Button autoFocus onClick={handleOnSave}>
                     Save changes
                 </Button>
             </DialogActions>
@@ -59,6 +63,7 @@ const UploadCsvPreviewModal = ({ setOpen, open, data = [] }) => {
 UploadCsvPreviewModal.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
     data: PropTypes.arrayOf(
         PropTypes.arrayOf(PropTypes.string),
     ).isRequired,
