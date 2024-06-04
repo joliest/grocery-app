@@ -1,7 +1,8 @@
 import {productMap} from '../constants/keyNames';
 
 const BLANK = '';
-const valueIsEmpty = str => ['\r', BLANK].some(emptyValue => emptyValue === str);
+const _R = '\r';
+const valueIsEmpty = str => [_R, BLANK].some(emptyValue => emptyValue === str);
 const convertListToFixedLength = (list, length) => Array.from({ length }, (_, i) => list[i] || BLANK);
 
 const getCsvFileData = async (file) => {
@@ -27,10 +28,12 @@ const getCsvFileData = async (file) => {
     return data;
 }
 
+const cleanValue = (value) => `${value}`.replace(_R, '');
 const getCsvHeaders = (data = []) => {
     if (data.length === 0) return data;
     return data[0].reduce((acc, currentValue) => {
-        return !valueIsEmpty(currentValue) ? [...acc, currentValue] : acc;
+        const trimmedCurrentValue = cleanValue(currentValue);
+        return !valueIsEmpty(trimmedCurrentValue) ? [...acc, trimmedCurrentValue] : acc;
     }, []);
 };
 
@@ -58,14 +61,14 @@ const convertCsvToJs = (csvData, keyNames = {}) => {
     const fieldValues = getCleanCsvRows(csvData);
     return fieldValues.map(values => {
         const toJsObject = (acc, currentName, currentIndex) => {
-            const isValidKey = Object.keys(keyNames).length
+            const dataType = Object.keys(keyNames).length
                 ? keyNames[currentName]
                 : true;
-            if (!isValidKey) return acc;
-            const value = currentName === 'price'
+            if (!dataType) return acc;
+            const value = dataType.type === 'number'
                 ? Number(values[currentIndex])
-                : values[currentIndex];
-            return {...acc, [currentName]: value};
+                : cleanValue(values[currentIndex]);
+            return {...acc, [currentName]: value };
         };
         return fieldNames.reduce(toJsObject, {});
     });

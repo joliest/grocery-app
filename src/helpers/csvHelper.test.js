@@ -13,6 +13,19 @@ const sampleCsvData = [
     [ '\r' ],
 ];
 
+const sampleCsvDataWithR = [
+    // header
+    [ 'name', 'price', 'store', 'category', 'subcategory', 'link', 'datePurchased\r', '', '', '', '\r' ],
+    // clean values
+    [ 'Product 1', '12', 'Sm Pampanga', 'Category', 'Sub Category', 'http://link/1', '4-21-92\r', '', '', '', '\r' ],
+    [ 'Product 2', '14', 'Mall of Asia', 'Category 2', 'Sub Category 2', '', '9-21-23', '\r', 'should not be included' ],
+    [ '', '14', '', '', '', '', '', '\r', 'should not be included', '' ],
+    // not clean values
+    [ '' ],
+    [ '', '', '', '', '', '', '', '', ],
+    [ '\r' ],
+];
+
 describe('Csv Helper', () => {
     describe('Get Csv File Data', () => {
         const file = new File(['(⌐□_□)'], 'chucknorris.csv', { type: 'text/csv' });
@@ -128,7 +141,7 @@ describe('Csv Helper', () => {
             // then
             const expected = [{
                 name: 'Product 1',
-                price: 12,
+                price: '12',
                 store: 'Sm Pampanga',
                 category: 'Category',
                 subcategory: 'Sub Category',
@@ -136,7 +149,7 @@ describe('Csv Helper', () => {
                 datePurchased: '4-21-92',
             }, {
                 name: 'Product 2',
-                price: 14,
+                price: '14',
                 store: 'Mall of Asia',
                 category: 'Category 2',
                 subcategory: 'Sub Category 2',
@@ -144,7 +157,7 @@ describe('Csv Helper', () => {
                 datePurchased: '9-21-23',
             }, {
                 name: '',
-                price: 14,
+                price: '14',
                 store: '',
                 category: '',
                 subcategory: '',
@@ -195,6 +208,35 @@ describe('Csv Helper', () => {
                     price: 14,
                     category: '',
                     subcategory: '',
+                    datePurchased: '',
+                }];
+                expect(expected).toEqual(actual)
+            });
+        });
+        describe('when last column has "\r"', () => {
+            it('includes fields that are in the key names list', () => {
+                // given
+                const productMap = {
+                    name: {
+                        type: 'text',
+                    },
+                    datePurchased: {
+                        type: 'text',
+                    },
+                };
+
+                // when
+                const actual = uploadHelper.convertCsvToJs(sampleCsvDataWithR, productMap);
+
+                // then
+                const expected = [{
+                    name: 'Product 1',
+                    datePurchased: '4-21-92',
+                }, {
+                    name: 'Product 2',
+                    datePurchased: '9-21-23',
+                }, {
+                    name: '',
                     datePurchased: '',
                 }];
                 expect(expected).toEqual(actual)
