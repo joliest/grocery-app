@@ -8,12 +8,14 @@ const mockUseProducts = () => {
     jest.spyOn(useProducts, 'default').mockReturnValue({
         products: [{
             name: 'Product Name 1',
-            price: 120,
-            store: 'SM Manila',
             category: 'Category',
             subcategory: 'Sub Category',
-            link: 'http://product-link/1',
-            datePurchased: '2023-04-21',
+            purchaseHistoryList: [{
+                store: 'SM Manila',
+                link: 'http://product-link/1',
+                datePurchased: '2023-04-21',
+                price: 120,
+            }],
         }],
     });
 }

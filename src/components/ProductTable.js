@@ -13,14 +13,24 @@ const buildTable = (products) => {
     return [
         PRODUCT_HEADER,
         ...products.map((product) => {
+            let recentPrice;
+            let recentLink;
+            let recentStore;
+            let recentDatePurchased;
+            ([{
+                price: recentPrice,
+                store: recentStore,
+                link: recentLink,
+                datePurchased: recentDatePurchased,
+            }] = product?.purchaseHistoryList || []);
             return [
                 product?.name,
-                product?.price,
-                product?.store,
+                recentPrice,
+                recentStore,
                 product?.category,
                 product?.subcategory,
-                product?.link,
-                product?.datePurchased,
+                recentLink,
+                recentDatePurchased,
             ];
         }),
     ]

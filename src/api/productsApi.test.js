@@ -31,8 +31,8 @@ describe('Products Api', () => {
             setup();
             productsApi.postProducts(products);
             expect(apiInstance.post).toHaveBeenCalledWith({
-                url: 'http://localhost:8080/v1/products',
-                body: { products },
+                url: 'http://localhost:8080/v1/products/import',
+                body: products,
             });
         });
     });
