@@ -1,4 +1,3 @@
-import {productMap} from '../constants/keyNames';
 
 const BLANK = '';
 const _R = '\r';
