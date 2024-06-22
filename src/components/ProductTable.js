@@ -22,7 +22,7 @@ const buildTable = (products) => {
                 store: recentStore,
                 link: recentLink,
                 datePurchased: recentDatePurchased,
-            }] = product?.purchaseHistoryList || []);
+            }] = product?.purchaseHistoryList || [{}]);
             return [
                 product?.name,
                 recentPrice,
