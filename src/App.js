@@ -1,12 +1,13 @@
-import './App.css';
-import Table from './components/ProductTable';
+import * as React from 'react';
+import {Outlet} from 'react-router-dom';
+import DefaultLayout from './components/appbar/DefaultLayout';
 
-function App() {
-  return (
-    <div className="main-container" data-testid="main-container">
-      <Table />
-    </div>
-  );
+const App = () => {
+    return (
+        <DefaultLayout>
+            <Outlet/>
+        </DefaultLayout>
+    );
 }
 
 export default App;

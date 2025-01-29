@@ -13,7 +13,7 @@ const GenericTable = ({ data = [] }) => {
     const headers = csvHelper.getCsvHeaders(data);
     const rows = csvHelper.getCleanCsvRows(data);
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} data-testid="generic-table">
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
