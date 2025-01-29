@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -7,7 +8,6 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Table from '../subcomponent/GenericTable';
-import DefaultButton from '../form/muiWrappers/DefaultButton';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -52,9 +52,9 @@ const UploadCsvPreviewModal = ({ setOpen, open, onSave, data = [] }) => {
                 <Table data={data} />
             </DialogContent>
             <DialogActions>
-                <DefaultButton autoFocus onClick={handleOnSave}>
+                <Button autoFocus onClick={handleOnSave}>
                     Save changes
-                </DefaultButton>
+                </Button>
             </DialogActions>
         </BootstrapDialog>
     );
