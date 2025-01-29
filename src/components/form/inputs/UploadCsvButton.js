@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button} from '@mui/material';
 import csvHelper from '../../../helpers/csvHelper';
+import DefaultButton from '../muiWrappers/DefaultButton';
 
 const UploadCsvButton = (props) => {
     const handleFileChange = async (e) => {
@@ -26,9 +26,9 @@ const UploadCsvButton = (props) => {
                 onChange={handleFileChange}
             />
             <label htmlFor="upload-csv-button">
-                <Button variant="contained" component="span">
+                <DefaultButton variant="contained" component="span">
                     Upload CSV
-                </Button>
+                </DefaultButton>
             </label>
         </>
 )
