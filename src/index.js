@@ -13,7 +13,6 @@ import ProductsPage from './views/ProductsPage';
 import sagas from './sagas';
 
 import reducers from './reducers';
-import DefaultLayout from './components/appbar/DefaultLayout';
 
 const router = createBrowserRouter([{
     path: '/',
@@ -27,12 +26,10 @@ const router = createBrowserRouter([{
         {
             path: '/groceries',
             element: <GroceriesPage />,
-            children: [
-                {
-                    path: '/groceries/:groceryId',
-                    element: <GroceryPage />,
-                }
-            ],
+        },
+        {
+            path: '/groceries/:groceryId',
+            element: <GroceryPage />,
         },
     ],
 }]);

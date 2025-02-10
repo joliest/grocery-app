@@ -17,4 +17,19 @@ describe('Groceries Api', () => {
             expect(apiInstance.get).toHaveBeenCalled();
         });
     });
+    describe('get grocery by id', () => {
+        const setup = () => {
+            jest.spyOn(apiInstance, 'get')
+                .mockReturnValueOnce('get groceries by id mock return value');
+        };
+        it('retrieves grocery by id', () => {
+            setup();
+            expect(groceriesApi.getGroceryById('id')).toBe('get groceries by id mock return value');
+        });
+        it('calls get api instance', () => {
+            setup();
+            groceriesApi.getGroceryById('id');
+            expect(apiInstance.get).toHaveBeenCalled();
+        });
+    });
 });

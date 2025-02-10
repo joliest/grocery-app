@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 const NotFoundPage = () => {
     return (
         <>
-            <h1>404 not found</h1>
+            <Typography variant="h2">404 not found</Typography>
             <Link to="/">Home</Link>
         </>
     );

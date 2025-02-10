@@ -1,18 +1,34 @@
-import {GET_GROCERIES, GET_GROCERIES_SUCCESS, getGroceries, getGroceriesSuccess} from './groceries';
+import * as groceryActions from './groceries';
 
 describe('Groceries Action', () => {
     describe('get groceries', () => {
         it('returns action type', () => {
-            expect(getGroceries()).toEqual({
-                type: GET_GROCERIES,
+            expect(groceryActions.getGroceries()).toEqual({
+                type: groceryActions.GET_GROCERIES,
             });
         });
     });
     describe('get groceries success', () => {
         it('returns action type with payload', () => {
-            expect(getGroceriesSuccess('payload')).toEqual({
-                type: GET_GROCERIES_SUCCESS,
+            expect(groceryActions.getGroceriesSuccess('payload')).toEqual({
+                type: groceryActions.GET_GROCERIES_SUCCESS,
                 payload: 'payload',
+            });
+        });
+    });
+    describe('get grocery by id', () => {
+        it('returns action type with payload', () => {
+            expect(groceryActions.getGroceryById('id')).toEqual({
+                type: groceryActions.GET_GROCERY_BY_ID,
+                payload: 'id',
+            });
+        });
+    });
+    describe('get grocery by id success', () => {
+        it('returns action type with payload', () => {
+            expect(groceryActions.getGroceryByIdSuccess('grocery')).toEqual({
+                type: groceryActions.GET_GROCERY_BY_ID_SUCCESS,
+                payload: 'grocery',
             });
         });
     });
