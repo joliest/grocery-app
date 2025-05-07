@@ -2,45 +2,35 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getGroceries} from '../actions/groceries';
 import Grid from '@mui/material/Grid2';
-import GenericTable from '../components/subcomponent/GenericTable';
 import {Button} from '@mui/material';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-
-const GROCERY_HEADER = ['Name', 'Description', 'Store'];
-
-const renderName = (props) => (
-    <Link to={`/groceries/${props.id}`}>
-        {props.name}
-    </Link>
-);
-
-const buildTable = (groceries) => {
-    if (!groceries) return [];
-    return [
-        GROCERY_HEADER,
-        ...groceries.map((grocery) => {
-            return [
-                renderName({
-                    id: grocery?.id,
-                    name: grocery?.name,
-                }),
-                grocery?.description,
-                grocery?.store?.name,
-            ];
-        }),
-    ]
-};
+import CardTiles from '../components/subcomponent/CardTiles';
 
 const GroceriesPage = () => {
     const dispatch = useDispatch();
-    const groceries = useSelector((state) => state.groceries);
+    const navigate = useNavigate();
+    const groceries = useSelector((state) => state.groceries) || {};
 
     useEffect(() => {
         if (!groceries.isSuccess) {
             dispatch(getGroceries())
         }
     }, [groceries.isSuccess]);
+
+    const handleGroceryClick = (id) => {
+        const link = `/groceries/${id}`;
+        navigate(link);
+    }
+
+    const cardTilesList = groceries.list?.map(grocery => ({
+        id: grocery.id,
+        name: grocery.name,
+        body1: grocery?.store?.name,
+        body2: grocery.description,
+        onClick: handleGroceryClick,
+    }));
+
     return (
         <Grid container spacing={2}>
             <Grid size={12}>
@@ -56,7 +46,7 @@ const GroceriesPage = () => {
                 </Button>
             </Grid>
             <Grid size={12}>
-                <GenericTable data={buildTable(groceries.list)} />
+                <CardTiles list={cardTilesList} />
             </Grid>
         </Grid>
     )

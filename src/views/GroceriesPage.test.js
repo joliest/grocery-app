@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import reactRedux from 'react-redux';
+import reactRouterDom, {BrowserRouter} from 'react-router-dom';
 import GroceriesPage from './GroceriesPage';
 import { getGroceries } from '../actions/groceries';
 
@@ -8,11 +9,23 @@ jest.mock('react-redux', () => ({
     useSelector: jest.fn(),
     useDispatch: jest.fn(),
 }));
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(),
+}));
+
+const TestableGroceryPage = (props) => (
+    <BrowserRouter>
+        <GroceriesPage {...props} />
+    </BrowserRouter>
+);
 
 const setup = (props = {}, state = {}) => {
     const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
+    const useNavigateMock = jest.spyOn(reactRouterDom, 'useNavigate');
     const mockDispatch = jest.fn();
+    const mockNavigate = jest.fn();
 
     const initialGroceriesState = {
         list: [{
@@ -23,19 +36,22 @@ const setup = (props = {}, state = {}) => {
                 name: 'Store Name',
             },
         }],
+        isSuccess: false,
         ...state,
     };
     useSelectorMock.mockReturnValueOnce({ ...initialGroceriesState });
     useDispatchMock.mockReturnValueOnce(mockDispatch);
+    useNavigateMock.mockReturnValueOnce(mockNavigate);
 
-    const utils = render(<GroceriesPage {...props} />);
-    const getColumnHeader = name => screen.getByRole('columnheader', { name });
-    const getColumnCell = name => screen.getByRole('cell', { name });
+    const utils = render(<TestableGroceryPage {...props} />);
+    const getCardTitle = name => screen.getByRole('heading', { level: 5, name });
+    const getAddButton = () => screen.getByRole('link', { name: 'Add Grocery'});
     return {
         ...utils,
         mockDispatch,
-        getColumnHeader,
-        getColumnCell,
+        mockNavigate,
+        getCardTitle,
+        getAddButton,
     };
 }
 
@@ -45,9 +61,9 @@ describe('Groceries Page', () => {
             setup();
             expect(screen.getByText('Groceries')).toBeInTheDocument();
         });
-        it('renders generic table', () => {
+        it('renders card titles', () => {
             setup();
-            expect(screen.getByTestId('generic-table')).toBeInTheDocument();
+            expect(screen.getByTestId('card-titles')).toBeInTheDocument();
         });
         it('dispatches get groceries', () => {
             // given
@@ -76,18 +92,28 @@ describe('Groceries Page', () => {
             expect(mockDispatch).not.toHaveBeenCalledWith(getGroceries());
         });
     });
-    describe('table', () => {
-        it('renders headings', () => {
+    describe('add grocery button', () => {
+        it('renders', () => {
             const utils = setup();
-            expect(utils.getColumnHeader('Name')).toBeInTheDocument();
-            expect(utils.getColumnHeader('Description')).toBeInTheDocument();
-            expect(utils.getColumnHeader('Store')).toBeInTheDocument();
+            expect(utils.getAddButton()).toBeInTheDocument();
         });
-        it('renders data', () => {
+        it('should href to grocery/new', () => {
             const utils = setup();
-            expect(utils.getColumnCell('Grocery Name')).toBeInTheDocument();
-            expect(utils.getColumnCell('Grocery Description')).toBeInTheDocument();
-            expect(utils.getColumnCell('Store Name')).toBeInTheDocument();
+            expect(utils.getAddButton()).toHaveAttribute('href', '/groceries/new');
+        });
+    });
+    describe('card title', () => {
+        it('renders tile title', () => {
+            const utils = setup();
+            expect(utils.getCardTitle('Grocery Name')).toBeInTheDocument();
+        });
+        it('renders description', () => {
+            setup();
+            expect(screen.getByText('Grocery Description')).toBeInTheDocument();
+        });
+        it('renders store', () => {
+            setup();
+            expect(screen.getByText('Store Name')).toBeInTheDocument();
         });
     });
 });

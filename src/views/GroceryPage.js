@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getGroceryById} from '../actions/groceries';
 import Typography from '@mui/material/Typography';
 
-const GroceriesPage = (props) => {
+const GroceryPage = () => {
     const params = useParams();
     const dispatch = useDispatch();
     const selectedGrocery = useSelector((state) => state.groceries.selectedGrocery);
@@ -22,16 +22,22 @@ const GroceriesPage = (props) => {
                     variant="outlined"
                     component={Link}
                     to="/groceries"
+                    data-testid="to-groceries-link"
                 >
                     Back
                 </Button>
             </Grid>
             <Grid size={12}>
                 <Typography variant="h2">{selectedGrocery.name}</Typography>
-                <Typography variant="subtitle1">{selectedGrocery.description}</Typography>
+                <Typography
+                    variant="subtitle1"
+                    sx={{ marginLeft: 1 }}
+                >
+                    {selectedGrocery.description}
+                </Typography>
             </Grid>
         </Grid>
     )
 }
 
-export default GroceriesPage;
+export default GroceryPage;
