@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getGroceries} from '../actions/groceries';
 import Grid from '@mui/material/Grid2';
-import {Button} from '@mui/material';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import CardTiles from '../components/subcomponent/CardTiles';
+import AddGroceryDrawer from '../components/groceries/AddGroceryDrawer';
 
 const GroceriesPage = () => {
     const dispatch = useDispatch();
@@ -37,13 +37,7 @@ const GroceriesPage = () => {
                 <Typography variant="h2">Groceries</Typography>
             </Grid>
             <Grid size={12}>
-                <Button
-                    variant="outlined"
-                    component={Link}
-                    to="/groceries/new"
-                >
-                    Add Grocery
-                </Button>
+                <AddGroceryDrawer />
             </Grid>
             <Grid size={12}>
                 <CardTiles list={cardTilesList} />

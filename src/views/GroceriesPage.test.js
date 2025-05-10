@@ -45,13 +45,13 @@ const setup = (props = {}, state = {}) => {
 
     const utils = render(<TestableGroceryPage {...props} />);
     const getCardTitle = name => screen.getByRole('heading', { level: 5, name });
-    const getAddButton = () => screen.getByRole('link', { name: 'Add Grocery'});
+    const getNewButton = () => screen.getByRole('button', { name: 'New Grocery'});
     return {
         ...utils,
         mockDispatch,
         mockNavigate,
         getCardTitle,
-        getAddButton,
+        getNewButton,
     };
 }
 
@@ -92,14 +92,10 @@ describe('Groceries Page', () => {
             expect(mockDispatch).not.toHaveBeenCalledWith(getGroceries());
         });
     });
-    describe('add grocery button', () => {
+    describe('new grocery drawer', () => {
         it('renders', () => {
             const utils = setup();
-            expect(utils.getAddButton()).toBeInTheDocument();
-        });
-        it('should href to grocery/new', () => {
-            const utils = setup();
-            expect(utils.getAddButton()).toHaveAttribute('href', '/groceries/new');
+            expect(utils.getNewButton()).toBeInTheDocument();
         });
     });
     describe('card title', () => {
