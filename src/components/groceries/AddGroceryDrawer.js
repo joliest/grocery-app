@@ -23,6 +23,7 @@ export default function AddGroceryDrawer() {
             <Grid data-testid="add-grocery-form" container spacing={2}>
                 <Grid size={12}>
                     <StandardTextField
+                        autoFocus
                         id="grocery-name"
                         label="Name"
                     />

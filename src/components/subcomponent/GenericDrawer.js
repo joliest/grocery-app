@@ -33,6 +33,7 @@ const GenericDrawer = (props) => {
                 {props.label}
             </Button>
             <StyledDrawer
+                disableRestoreFocus
                 anchor="right"
                 open={props.open}
                 onClose={toggleDrawer(false)}
