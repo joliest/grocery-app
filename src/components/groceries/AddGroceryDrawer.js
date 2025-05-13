@@ -4,13 +4,21 @@ import {useState} from 'react';
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import StandardTextField from '../form/inputs/StandardTextField';
+import {useDispatch} from 'react-redux';
+import {addGrocery} from '../../actions/groceries';
 
 export default function AddGroceryDrawer() {
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [name, setName] = useState('');
 
+    const dispatch = useDispatch();
+
+    const handleNameChange = e => setName(e.target.value);
     const handleClose = () => setDrawerOpen(false);
-
     const handleSave = () => {
+        dispatch(addGrocery({
+            name,
+        }));
         handleClose();
     }
 
@@ -26,6 +34,7 @@ export default function AddGroceryDrawer() {
                         autoFocus
                         id="grocery-name"
                         label="Name"
+                        onChange={handleNameChange}
                     />
                 </Grid>
                 <Grid size={12}>
@@ -47,6 +56,7 @@ export default function AddGroceryDrawer() {
                     <Button
                         variant="contained"
                         fullWidth
+                        disabled={!name}
                         onClick={handleSave}
                     >
                         Save

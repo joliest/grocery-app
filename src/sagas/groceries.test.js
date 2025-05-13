@@ -1,7 +1,7 @@
 import {testSaga} from 'redux-saga-test-plan';
-import {workGetGroceries, workGetGroceryById} from './groceries';
+import {workAddGrocery, workGetGroceries, workGetGroceryById} from './groceries';
 import groceriesApi from '../api/groceriesApi';
-import {getGroceriesSuccess, getGroceryByIdSuccess} from '../actions/groceries';
+import {addGrocerySuccess, getGroceriesSuccess, getGroceryByIdSuccess} from '../actions/groceries';
 
 
 describe('Groceries Saga', () => {
@@ -24,6 +24,26 @@ describe('Groceries Saga', () => {
                 .call(groceriesApi.getGroceryById, 'id')
                 .next({ data: 'groceries data'})
                 .put(getGroceryByIdSuccess('groceries data'))
+                .next()
+                .isDone();
+        });
+    });
+    describe('add grocery', () => {
+        it('works adding a grocery', () => {
+            const action = {
+                payload: {
+                    name: 'Name',
+                    description: '',
+                },
+            };
+            testSaga(workAddGrocery, action)
+                .next()
+                .call(groceriesApi.postGrocery, {
+                    name: action.payload.name,
+                    description: action.payload.description,
+                })
+                .next({ data: 'new grocery'})
+                .put(addGrocerySuccess('new grocery'))
                 .next()
                 .isDone();
         });

@@ -32,4 +32,19 @@ describe('Groceries Api', () => {
             expect(apiInstance.get).toHaveBeenCalled();
         });
     });
+    describe('post grocery', () => {
+        const setup = () => {
+            jest.spyOn(apiInstance, 'post')
+                .mockReturnValueOnce('post groceries mock return value');
+        };
+        it('returns newly created grocery', () => {
+            setup();
+            expect(groceriesApi.postGrocery('body')).toBe('post groceries mock return value');
+        });
+        it('calls get api instance', () => {
+            setup();
+            groceriesApi.postGrocery('body');
+            expect(apiInstance.post).toHaveBeenCalled();
+        });
+    });
 });

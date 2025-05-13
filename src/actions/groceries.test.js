@@ -32,4 +32,23 @@ describe('Groceries Action', () => {
             });
         });
     });
+    describe('add grocery', () => {
+        it('returns action type', () => {
+            const payload = {
+                name: 'Name',
+                description: 'Description',
+            }
+            expect(groceryActions.addGrocery(payload)).toEqual({
+                type: groceryActions.ADD_GROCERY, payload,
+            });
+        });
+    });
+    describe('add grocery success', () => {
+        it('returns action type with payload', () => {
+            expect(groceryActions.addGrocerySuccess('new grocery')).toEqual({
+                type: groceryActions.ADD_GROCERY_SUCCESS,
+                payload: 'new grocery',
+            });
+        });
+    });
 });

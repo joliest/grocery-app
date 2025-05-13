@@ -1,4 +1,8 @@
-import {GET_GROCERIES_SUCCESS, GET_GROCERY_BY_ID_SUCCESS} from '../actions/groceries';
+import {
+    ADD_GROCERY_SUCCESS,
+    GET_GROCERIES_SUCCESS,
+    GET_GROCERY_BY_ID_SUCCESS,
+} from '../actions/groceries';
 
 const initialState = {
     isSuccess: false,
@@ -21,6 +25,14 @@ const groceryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectedGrocery: action.payload,
+            };
+        case ADD_GROCERY_SUCCESS:
+            return {
+                ...state,
+                list: [
+                    ...state.list,
+                    action.payload,
+                ],
             };
         default:
             return state;

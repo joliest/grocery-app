@@ -1,9 +1,11 @@
 import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
 import {
+    ADD_GROCERY,
     GET_GROCERIES,
     GET_GROCERY_BY_ID,
     getGroceriesSuccess,
-    getGroceryByIdSuccess
+    getGroceryByIdSuccess,
+    addGrocerySuccess,
 } from '../actions/groceries';
 import groceriesApi from '../api/groceriesApi';
 
@@ -17,6 +19,13 @@ export const workGetGroceryById = function* (action) {
     yield put(getGroceryByIdSuccess(grocery.data));
 }
 
+export const workAddGrocery = function* (action) {
+    const { name, description = '' } = action.payload;
+    const groceryToSave = { name, description };
+    const savedGrocery = yield call(groceriesApi.postGrocery, groceryToSave);
+    yield put(addGrocerySuccess(savedGrocery.data));
+}
+
 function* getGroceriesWatcher() {
     yield takeEvery(GET_GROCERIES, workGetGroceries);
 }
@@ -25,9 +34,14 @@ function* getGroceryByIdWatcher() {
     yield takeLatest(GET_GROCERY_BY_ID, workGetGroceryById);
 }
 
+function* addGroceryWatcher() {
+    yield takeLatest(ADD_GROCERY, workAddGrocery);
+}
+
 const watchers = [
     getGroceriesWatcher(),
     getGroceryByIdWatcher(),
+    addGroceryWatcher(),
 ]
 
 export default watchers;
