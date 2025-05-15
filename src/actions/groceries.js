@@ -35,12 +35,12 @@ export const getGroceryByIdSuccess = (grocery) => {
 }
 
 export const addGrocery = ({
-    name, description = '',
+    name, storeId, description = '',
 }) => {
     return {
         type: ADD_GROCERY,
         payload: {
-            name, description,
+            name, description, storeId,
         }
     }
 }

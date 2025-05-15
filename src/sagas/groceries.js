@@ -20,8 +20,8 @@ export const workGetGroceryById = function* (action) {
 }
 
 export const workAddGrocery = function* (action) {
-    const { name, description = '' } = action.payload;
-    const groceryToSave = { name, description };
+    const { name, description = '', storeId } = action.payload;
+    const groceryToSave = { name, description, storeId };
     const savedGrocery = yield call(groceriesApi.postGrocery, groceryToSave);
     yield put(addGrocerySuccess(savedGrocery.data));
 }

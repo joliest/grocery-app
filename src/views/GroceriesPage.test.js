@@ -39,9 +39,9 @@ const setup = (props = {}, state = {}) => {
         isSuccess: false,
         ...state,
     };
-    useSelectorMock.mockReturnValueOnce({ ...initialGroceriesState });
-    useDispatchMock.mockReturnValueOnce(mockDispatch);
-    useNavigateMock.mockReturnValueOnce(mockNavigate);
+    useSelectorMock.mockReturnValue({ ...initialGroceriesState });
+    useDispatchMock.mockReturnValue(mockDispatch);
+    useNavigateMock.mockReturnValue(mockNavigate);
 
     const utils = render(<TestableGroceryPage {...props} />);
     const getCardTitle = name => screen.getByRole('heading', { level: 5, name });

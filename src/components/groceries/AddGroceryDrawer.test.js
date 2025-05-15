@@ -2,17 +2,30 @@ import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import AddGroceryDrawer from './AddGroceryDrawer';
 import reactRedux from 'react-redux';
 import {addGrocery} from '../../actions/groceries';
+import {getStores} from '../../actions/stores';
+import testHelper from '../../helpers/unittests/muiHelper';
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),
+    useSelector: jest.fn(),
     useDispatch: jest.fn(),
 }));
 
-const setup = (props) => {
+const setup = (props = {}, state = {}) => {
     // mocks
-    const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
     const mockDispatch = jest.fn();
-    useDispatchMock.mockReturnValue(mockDispatch);
+    jest.spyOn(reactRedux, 'useDispatch').mockReturnValue(mockDispatch);
+
+    const initialStoreState = {
+        list: [{
+            id: 1,
+            name: 'Store Name',
+            description: 'Store Description',
+        }],
+        isSuccess: false,
+        ...state,
+    };
+    jest.spyOn(reactRedux, 'useSelector').mockReturnValue(initialStoreState);
 
     // render
     const utils = render(<AddGroceryDrawer />);
@@ -23,6 +36,7 @@ const setup = (props) => {
     const getGroceryForm = () => screen.queryByTestId('add-grocery-form');
     const getNameTextField = () => screen.getByLabelText('Name');
     const setNameTextFieldValue = value => fireEvent.change(getNameTextField(), { target: { value }});
+    const selectStoreFromCombobox = () => testHelper.selectFromAutocomplete('select-store-dropdown', initialStoreState.list[0].name);
     return {
         ...utils,
         mockDispatch,
@@ -31,20 +45,38 @@ const setup = (props) => {
         getNameTextField,
         setNameTextFieldValue,
         getSaveButton,
+        selectStoreFromCombobox,
     }
 }
 
 describe('<AddGroceryDrawer />', () => {
-    it('renders trigger button', () => {
-        const { getTriggerButton } = setup();
-        expect(getTriggerButton()).toBeInTheDocument();
-    });
-    it('does not render add grocery form', () => {
-        const { getGroceryForm } = setup();
-        expect(getGroceryForm()).not.toBeInTheDocument();
+    let utils;
+    describe('on load', () => {
+        it('renders trigger button', () => {
+            (utils = setup());
+            expect(utils.getTriggerButton()).toBeInTheDocument();
+        });
+        it('does not render add grocery form', () => {
+            (utils = setup());
+            expect(utils.getGroceryForm()).not.toBeInTheDocument();
+        });
+        it('dispatches get store action', () => {
+            (utils = setup());
+            const getStoreAction = getStores();
+            expect(utils.mockDispatch).toHaveBeenCalledWith(getStoreAction);
+        });
+        describe('when stores has a success status', () => {
+            beforeEach(() => {
+                const isSuccess = true;
+                (utils = setup({}, { isSuccess }));
+            });
+            it('does not dispatch the get store action', () => {
+                const getStoreAction = getStores();
+                expect(utils.mockDispatch).not.toHaveBeenCalledWith(getStoreAction);
+            });
+        });
     });
     describe('when trigger button is clicked', () => {
-        let utils;
         beforeEach(() => {
             (utils = setup());
             fireEvent.click(utils.getTriggerButton());
@@ -58,6 +90,7 @@ describe('<AddGroceryDrawer />', () => {
         describe('filling out the form', () => {
             beforeEach(() => {
                 utils.setNameTextFieldValue('Name test');
+                utils.selectStoreFromCombobox();
             });
             it('enables save button', () => {
                 expect(utils.getSaveButton()).not.toBeDisabled();
@@ -69,6 +102,7 @@ describe('<AddGroceryDrawer />', () => {
                 it('dispatches save grocery action', () => {
                     const groceryAction = addGrocery({
                         name: 'Name test',
+                        storeId: 1,
                     });
                     expect(utils.mockDispatch).toHaveBeenCalledWith(groceryAction);
                 });

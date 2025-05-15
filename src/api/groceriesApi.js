@@ -12,13 +12,11 @@ const getGroceryById = (id) => {
     });
 }
 
-const postGrocery = (body) => {
+const postGrocery = (params) => {
+    const  { name, description = '', storeId } = params;
     return apiInstance.post({
         url: `http://localhost:8080/v1/groceries`,
-        body: {
-            ...body,
-            storeId: 1,
-        },
+        body: { name, description, storeId },
     });
 }
 

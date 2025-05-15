@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import {styled} from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-const MIN_WIDTH = '20%';
+const WIDTH = '25%';
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
     // makes sure that drawer is infront of AppBar
@@ -39,7 +39,7 @@ const GenericDrawer = (props) => {
                 onClose={toggleDrawer(false)}
                 PaperProps={{
                     sx: {
-                        minWidth: MIN_WIDTH,
+                        width: WIDTH,
                         padding: 2,
                     },
                 }}

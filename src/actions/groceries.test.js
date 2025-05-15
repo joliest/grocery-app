@@ -37,6 +37,7 @@ describe('Groceries Action', () => {
             const payload = {
                 name: 'Name',
                 description: 'Description',
+                storeId: 'Store ID',
             }
             expect(groceryActions.addGrocery(payload)).toEqual({
                 type: groceryActions.ADD_GROCERY, payload,
