@@ -1,5 +1,5 @@
 import groceryReducer from './groceries';
-import {ADD_GROCERY_SUCCESS} from '../actions/groceries';
+import * as groceryActions from '../actions/groceries';
 
 
 describe('Groceries Reducer', () => {
@@ -17,7 +17,7 @@ describe('Groceries Reducer', () => {
             };
 
             const action = {
-                type: ADD_GROCERY_SUCCESS,
+                type: groceryActions.ADD_GROCERY_SUCCESS,
                 payload: {
                     id: 'id 2',
                     name: 'name 2',
@@ -39,6 +39,59 @@ describe('Groceries Reducer', () => {
                         description: 'description 2',
                     },
                 ],
+            })
+        });
+    });
+    describe('GET_GROCERIES_SUCCESS', () => {
+        it('sets status and populates list', () => {
+            const initialState = {
+                isSuccess: false,
+                hasError: false,
+                list: [],
+            };
+
+            const action = {
+                type: groceryActions.GET_GROCERIES_SUCCESS,
+                payload: [{
+                    id: 'id 1',
+                    name: 'name 1',
+                    description: 'description 1',
+                }],
+            }
+
+            const expected = groceryReducer(initialState, action);
+            expect(expected).toEqual({
+                isSuccess: true,
+                hasError: false,
+                list: [{
+                    id: 'id 1',
+                    name: 'name 1',
+                    description: 'description 1',
+                }],
+            })
+        });
+    });
+    describe('GET_GROCERY_BY_ID_FAILURE', () => {
+        it('sets status and clears the list', () => {
+            const initialState = {
+                isSuccess: true,
+                hasError: false,
+                list: [{
+                    id: 'id 1',
+                    name: 'name 1',
+                    description: 'description 1',
+                }],
+            };
+
+            const action = {
+                type: groceryActions.GET_GROCERIES_FAILURE,
+            }
+
+            const expected = groceryReducer(initialState, action);
+            expect(expected).toEqual({
+                isSuccess: false,
+                hasError: true,
+                list: [],
             })
         });
     });

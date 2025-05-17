@@ -16,6 +16,13 @@ describe('Groceries Action', () => {
             });
         });
     });
+    describe('get groceries failure', () => {
+        it('returns action type', () => {
+            expect(groceryActions.getGroceriesFailure()).toEqual({
+                type: groceryActions.GET_GROCERIES_FAILURE,
+            });
+        });
+    });
     describe('get grocery by id', () => {
         it('returns action type with payload', () => {
             expect(groceryActions.getGroceryById('id')).toEqual({

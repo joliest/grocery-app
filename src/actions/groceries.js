@@ -1,5 +1,6 @@
 export const GET_GROCERIES = 'GET_GROCERIES';
 export const GET_GROCERIES_SUCCESS = 'GET_GROCERIES_SUCCESS';
+export const GET_GROCERIES_FAILURE = 'GET_GROCERIES_FAILURE';
 
 export const GET_GROCERY_BY_ID = 'GET_GROCERY_BY_ID';
 export const GET_GROCERY_BY_ID_SUCCESS = 'GET_GROCERY_BY_ID_SUCCESS';
@@ -17,6 +18,11 @@ export const getGroceriesSuccess = (groceries) => {
     return {
         type: GET_GROCERIES_SUCCESS,
         payload: groceries,
+    }
+}
+export const getGroceriesFailure = () => {
+    return {
+        type: GET_GROCERIES_FAILURE,
     }
 }
 

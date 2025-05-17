@@ -1,41 +1,38 @@
 import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
-import {
-    ADD_GROCERY,
-    GET_GROCERIES,
-    GET_GROCERY_BY_ID,
-    getGroceriesSuccess,
-    getGroceryByIdSuccess,
-    addGrocerySuccess,
-} from '../actions/groceries';
+import * as groceryActions from '../actions/groceries';
 import groceriesApi from '../api/groceriesApi';
+import HttpStatus from '../constants/httpStatusCodes';
 
 export const workGetGroceries = function* () {
     const groceries = yield call(groceriesApi.getGroceries);
-    yield put(getGroceriesSuccess(groceries.data));
+    if (groceries.status === HttpStatus.OK) {
+        return yield put(groceryActions.getGroceriesSuccess(groceries.data));
+    }
+    yield put(groceryActions.getGroceriesFailure());
 }
 
 export const workGetGroceryById = function* (action) {
     const grocery = yield call(groceriesApi.getGroceryById, action.payload);
-    yield put(getGroceryByIdSuccess(grocery.data));
+    yield put(groceryActions.getGroceryByIdSuccess(grocery.data));
 }
 
 export const workAddGrocery = function* (action) {
     const { name, description = '', storeId } = action.payload;
     const groceryToSave = { name, description, storeId };
     const savedGrocery = yield call(groceriesApi.postGrocery, groceryToSave);
-    yield put(addGrocerySuccess(savedGrocery.data));
+    yield put(groceryActions.addGrocerySuccess(savedGrocery.data));
 }
 
 function* getGroceriesWatcher() {
-    yield takeEvery(GET_GROCERIES, workGetGroceries);
+    yield takeEvery(groceryActions.GET_GROCERIES, workGetGroceries);
 }
 
 function* getGroceryByIdWatcher() {
-    yield takeLatest(GET_GROCERY_BY_ID, workGetGroceryById);
+    yield takeLatest(groceryActions.GET_GROCERY_BY_ID, workGetGroceryById);
 }
 
 function* addGroceryWatcher() {
-    yield takeLatest(ADD_GROCERY, workAddGrocery);
+    yield takeLatest(groceryActions.ADD_GROCERY, workAddGrocery);
 }
 
 const watchers = [

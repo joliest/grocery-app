@@ -1,11 +1,8 @@
-import {
-    ADD_GROCERY_SUCCESS,
-    GET_GROCERIES_SUCCESS,
-    GET_GROCERY_BY_ID_SUCCESS,
-} from '../actions/groceries';
+import * as groceryActions from '../actions/groceries';
 
 const initialState = {
     isSuccess: false,
+    hasError: false,
     list: [],
     selectedGrocery: {
         id: null,
@@ -15,18 +12,21 @@ const initialState = {
 
 const groceryReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_GROCERIES_SUCCESS:
+        case groceryActions.GET_GROCERIES_SUCCESS:
             return {
                 ...state,
                 isSuccess: true,
+                hasError: false,
                 list: action.payload,
             };
-        case GET_GROCERY_BY_ID_SUCCESS:
+        case groceryActions.GET_GROCERIES_FAILURE:
             return {
                 ...state,
-                selectedGrocery: action.payload,
+                isSuccess: false,
+                hasError: true,
+                list: [],
             };
-        case ADD_GROCERY_SUCCESS:
+        case groceryActions.ADD_GROCERY_SUCCESS:
             return {
                 ...state,
                 list: [

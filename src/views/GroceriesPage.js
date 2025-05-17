@@ -23,7 +23,8 @@ const GroceriesPage = () => {
         navigate(link);
     }
 
-    const cardTilesList = groceries.list?.map(grocery => ({
+    const groceryList = groceries?.list || [];
+    const cardTilesList = groceryList.map(grocery => ({
         id: grocery.id,
         name: grocery.name,
         body1: grocery?.store?.name,
