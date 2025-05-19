@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import {Button} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {getGroceryById} from '../actions/groceries';
 import Typography from '@mui/material/Typography';
+import GenericDataGrid from '../components/subcomponent/GenericDataGrid';
 
 const GroceryPage = () => {
     const params = useParams();
@@ -35,6 +36,9 @@ const GroceryPage = () => {
                 >
                     {selectedGrocery.description}
                 </Typography>
+            </Grid>
+            <Grid size={12}>
+                <GenericDataGrid />
             </Grid>
         </Grid>
     )

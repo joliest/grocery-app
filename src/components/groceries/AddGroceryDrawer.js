@@ -1,7 +1,7 @@
 import * as React from 'react';
 import GenericDrawer from '../subcomponent/GenericDrawer';
 import {useEffect, useState} from 'react';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import StandardTextField from '../form/inputs/StandardTextField';
 import {useDispatch, useSelector} from 'react-redux';
