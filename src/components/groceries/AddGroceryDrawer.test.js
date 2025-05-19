@@ -35,7 +35,9 @@ const setup = (props = {}, state = {}) => {
     const getSaveButton = () => screen.getByRole('button', { name: 'Save' });
     const getGroceryForm = () => screen.queryByTestId('add-grocery-form');
     const getNameTextField = () => screen.getByLabelText('Name');
+    const getDescriptionTextField = () => screen.getByLabelText('Description');
     const setNameTextFieldValue = value => fireEvent.change(getNameTextField(), { target: { value }});
+    const setDescriptionTextFieldValue = value => fireEvent.change(getDescriptionTextField(), { target: { value }});
     const selectStoreFromCombobox = () => testHelper.selectFromAutocomplete('select-store-dropdown', initialStoreState.list[0].name);
     return {
         ...utils,
@@ -43,7 +45,9 @@ const setup = (props = {}, state = {}) => {
         getTriggerButton,
         getGroceryForm,
         getNameTextField,
+        getDescriptionTextField,
         setNameTextFieldValue,
+        setDescriptionTextFieldValue,
         getSaveButton,
         selectStoreFromCombobox,
     }
@@ -90,6 +94,7 @@ describe('<AddGroceryDrawer />', () => {
         describe('filling out the form', () => {
             beforeEach(() => {
                 utils.setNameTextFieldValue('Name test');
+                utils.setDescriptionTextFieldValue('Desc test');
                 utils.selectStoreFromCombobox();
             });
             it('enables save button', () => {
@@ -102,6 +107,7 @@ describe('<AddGroceryDrawer />', () => {
                 it('dispatches save grocery action', () => {
                     const groceryAction = addGrocery({
                         name: 'Name test',
+                        description: 'Desc test',
                         storeId: 1,
                     });
                     expect(utils.mockDispatch).toHaveBeenCalledWith(groceryAction);

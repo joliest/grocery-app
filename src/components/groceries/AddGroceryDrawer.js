@@ -12,6 +12,7 @@ import StandardAutocomplete from '../form/inputs/StandardAutocomplete';
 export default function AddGroceryDrawer() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
     const [selectedStore, setSelectedStore] = useState(null);
 
     const dispatch = useDispatch();
@@ -20,13 +21,14 @@ export default function AddGroceryDrawer() {
     const options = stores?.list || [];
 
     const handleNameChange = e => setName(e.target.value);
+    const handleDescriptionChange = e => setDescription(e.target.value);
     const handleClose = () => setDrawerOpen(false);
     const handleOpen = () => {
         setDrawerOpen(true);
     };
     const handleSave = () => {
         dispatch(addGrocery({
-            name,
+            name, description,
             storeId: selectedStore?.id,
         }));
         handleClose();
@@ -65,6 +67,7 @@ export default function AddGroceryDrawer() {
                     <StandardTextField
                         id="description-name"
                         label="Description"
+                        onChange={handleDescriptionChange}
                     />
                 </Grid>
                 <Grid size={6}>
