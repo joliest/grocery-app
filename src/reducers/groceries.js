@@ -34,6 +34,11 @@ const groceryReducer = (state = initialState, action) => {
                     action.payload,
                 ],
             };
+        case groceryActions.GET_GROCERY_BY_ID_SUCCESS:
+            return {
+                ...state,
+                selectedGrocery: action.payload,
+            };
         default:
             return state;
     }

@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
-import {Button} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {getGroceryById} from '../actions/groceries';
 import Typography from '@mui/material/Typography';
@@ -18,16 +17,6 @@ const GroceryPage = () => {
     }, [selectedGrocery.id]);
     return (
         <Grid container spacing={2}>
-            <Grid size={12}>
-                <Button
-                    variant="outlined"
-                    component={Link}
-                    to="/groceries"
-                    data-testid="to-groceries-link"
-                >
-                    Back
-                </Button>
-            </Grid>
             <Grid size={12}>
                 <Typography variant="h2">{selectedGrocery.name}</Typography>
                 <Typography

@@ -5,7 +5,7 @@ import DefaultLayout from './components/appbar/DefaultLayout';
 const App = () => {
     return (
         <DefaultLayout>
-            <Outlet/>
+            <Outlet />
         </DefaultLayout>
     );
 }
