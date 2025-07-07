@@ -36,4 +36,21 @@ describe('Products Api', () => {
             });
         });
     });
+    describe('search products', () => {
+        const setup = () => {
+            jest.spyOn(apiInstance, 'get')
+                .mockReturnValueOnce('search products mock return value');
+        };
+        it('retrieves search  products', () => {
+            setup();
+            expect(productsApi.searchProducts()).toBe('search products mock return value');
+        });
+        it('calls get api instance with query param', () => {
+            setup();
+            productsApi.searchProducts('query');
+            expect(apiInstance.get).toHaveBeenCalledWith({
+                url: expect.stringContaining('/v1/products?search=query'),
+            });
+        });
+    });
 });

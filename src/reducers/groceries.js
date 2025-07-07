@@ -6,6 +6,7 @@ const initialState = {
     list: [],
     selectedGrocery: {
         id: null,
+        list: [],
     },
 };
 
@@ -38,6 +39,17 @@ const groceryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectedGrocery: action.payload,
+            };
+        case groceryActions.SELECT_GROCERY_ITEM:
+            return {
+                ...state,
+                selectedGrocery: {
+                    ...state.selectedGrocery,
+                    list: [
+                        ...state.selectedGrocery.list,
+                        action.payload,
+                    ],
+                },
             };
         default:
             return state;

@@ -95,4 +95,45 @@ describe('Groceries Reducer', () => {
             })
         });
     });
+    describe('SELECT_GROCERY_ITEM', () => {
+        it('pushes payload to the list', () => {
+            const initialState = {
+                isSuccess: true,
+                hasError: false,
+                selectedGrocery: {
+                    list: [{
+                        id: 'id 1',
+                        name: 'name 1',
+                        description: 'description 1',
+                    }],
+                },
+            };
+
+            const action = {
+                type: groceryActions.SELECT_GROCERY_ITEM,
+                payload: {
+                    id: 'id 2',
+                    name: 'name 2',
+                    description: 'description 2',
+                },
+            }
+
+            const expected = groceryReducer(initialState, action);
+            expect(expected).toEqual({
+                isSuccess: true,
+                hasError: false,
+                selectedGrocery: {
+                    list: [{
+                        id: 'id 1',
+                        name: 'name 1',
+                        description: 'description 1',
+                    }, {
+                        id: 'id 2',
+                        name: 'name 2',
+                        description: 'description 2',
+                    }],
+                },
+            })
+        });
+    });
 });

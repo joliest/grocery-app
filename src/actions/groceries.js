@@ -8,6 +8,8 @@ export const GET_GROCERY_BY_ID_SUCCESS = 'GET_GROCERY_BY_ID_SUCCESS';
 export const ADD_GROCERY = 'ADD_GROCERY';
 export const ADD_GROCERY_SUCCESS = 'ADD_GROCERY_SUCCESS';
 
+export const SELECT_GROCERY_ITEM = 'SELECT_GROCERY_ITEM';
+
 export const getGroceries = () => {
     return {
         type: GET_GROCERIES,
@@ -55,5 +57,28 @@ export const addGrocerySuccess = (payload) => {
     return {
         type: ADD_GROCERY_SUCCESS, payload,
     }
+}
+
+export const selectGroceryItem = ({
+    id,
+    category,
+    subcategory,
+    actualPrice = 0,
+    estimatedPrice = 0,
+    product = {},
+    store = {},
+}) => {
+    return {
+        type: SELECT_GROCERY_ITEM,
+        payload: {
+            id,
+            product,
+            category,
+            subcategory,
+            estimatedPrice,
+            actualPrice,
+            store,
+        },
+    };
 }
 

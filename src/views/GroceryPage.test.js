@@ -48,10 +48,13 @@ describe('Groceries Page', () => {
             expect(screen.getByRole('heading', { level: 6, name: 'grocery description' }))
                 .toBeInTheDocument();
         });
-        it('renders back button that redirects to groceries', () => {
+        it('renders add grocery item dropdown', () => {
             setup();
-            expect(screen.getByTestId('to-groceries-link'))
-                .toHaveAttribute('to', '/groceries');
+            expect(screen.getByTestId('add-grocery-item-dropdown')).toBeInTheDocument();
+        });
+        it('renders add grocery item data grid', () => {
+            setup();
+            expect(screen.getByTestId('grocery-item-data-grid')).toBeInTheDocument();
         });
         describe('when selected grocery id is different with url param value', () => {
             const urlParamValue = { groceryId: 'id from url param' };

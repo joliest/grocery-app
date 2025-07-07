@@ -1,4 +1,5 @@
 import * as groceryActions from './groceries';
+import {selectGroceryItem} from './groceries';
 
 describe('Groceries Action', () => {
     describe('get groceries', () => {
@@ -57,6 +58,28 @@ describe('Groceries Action', () => {
                 type: groceryActions.ADD_GROCERY_SUCCESS,
                 payload: 'new grocery',
             });
+        });
+    });
+    describe('select grocery item', () => {
+        it('returns action type with payload', () => {
+            const payload = {
+                id: 'id',
+                category: 'category',
+                subcategory: 'subcategory',
+                actualPrice: 0,
+                estimatedPrice: 0,
+                product: {
+                    name: 'product',
+                },
+                store: {
+                    name: 'store',
+                },
+            };
+            expect(groceryActions.selectGroceryItem(payload))
+                .toEqual({
+                    type: groceryActions.SELECT_GROCERY_ITEM,
+                    payload,
+                });
         });
     });
 });
