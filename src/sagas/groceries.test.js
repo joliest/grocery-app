@@ -54,7 +54,6 @@ describe('Groceries Saga', () => {
                 payload: {
                     name: 'Name',
                     description: '',
-                    storeId: 1,
                 },
             };
             testSaga(workAddGrocery, action)
@@ -62,7 +61,6 @@ describe('Groceries Saga', () => {
                 .call(groceriesApi.postGrocery, {
                     name: action.payload.name,
                     description: action.payload.description,
-                    storeId: action.payload.storeId,
                 })
                 .next({ data: 'new grocery'})
                 .put(groceryActions.addGrocerySuccess('new grocery'))

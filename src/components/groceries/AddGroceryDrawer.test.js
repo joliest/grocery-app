@@ -2,12 +2,9 @@ import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import AddGroceryDrawer from './AddGroceryDrawer';
 import reactRedux from 'react-redux';
 import {addGrocery} from '../../actions/groceries';
-import {getStores} from '../../actions/stores';
-import testHelper from '../../helpers/unittests/muiHelper';
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),
-    useSelector: jest.fn(),
     useDispatch: jest.fn(),
 }));
 
@@ -38,7 +35,6 @@ const setup = (props = {}, state = {}) => {
     const getDescriptionTextField = () => screen.getByLabelText('Description');
     const setNameTextFieldValue = value => fireEvent.change(getNameTextField(), { target: { value }});
     const setDescriptionTextFieldValue = value => fireEvent.change(getDescriptionTextField(), { target: { value }});
-    const selectStoreFromCombobox = () => testHelper.selectFromAutocomplete('select-store-dropdown', initialStoreState.list[0].name);
     return {
         ...utils,
         mockDispatch,
@@ -49,7 +45,6 @@ const setup = (props = {}, state = {}) => {
         setNameTextFieldValue,
         setDescriptionTextFieldValue,
         getSaveButton,
-        selectStoreFromCombobox,
     }
 }
 
@@ -63,21 +58,6 @@ describe('<AddGroceryDrawer />', () => {
         it('does not render add grocery form', () => {
             (utils = setup());
             expect(utils.getGroceryForm()).not.toBeInTheDocument();
-        });
-        it('dispatches get store action', () => {
-            (utils = setup());
-            const getStoreAction = getStores();
-            expect(utils.mockDispatch).toHaveBeenCalledWith(getStoreAction);
-        });
-        describe('when stores has a success status', () => {
-            beforeEach(() => {
-                const isSuccess = true;
-                (utils = setup({}, { isSuccess }));
-            });
-            it('does not dispatch the get store action', () => {
-                const getStoreAction = getStores();
-                expect(utils.mockDispatch).not.toHaveBeenCalledWith(getStoreAction);
-            });
         });
     });
     describe('when trigger button is clicked', () => {
@@ -95,7 +75,6 @@ describe('<AddGroceryDrawer />', () => {
             beforeEach(() => {
                 utils.setNameTextFieldValue('Name test');
                 utils.setDescriptionTextFieldValue('Desc test');
-                utils.selectStoreFromCombobox();
             });
             it('enables save button', () => {
                 expect(utils.getSaveButton()).not.toBeDisabled();
@@ -108,7 +87,6 @@ describe('<AddGroceryDrawer />', () => {
                     const groceryAction = addGrocery({
                         name: 'Name test',
                         description: 'Desc test',
-                        storeId: 1,
                     });
                     expect(utils.mockDispatch).toHaveBeenCalledWith(groceryAction);
                 });

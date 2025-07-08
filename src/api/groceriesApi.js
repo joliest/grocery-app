@@ -13,10 +13,10 @@ const getGroceryById = (id) => {
 }
 
 const postGrocery = (params) => {
-    const  { name, description = '', storeId } = params;
+    const  { name, description = '' } = params;
     return apiInstance.post({
         url: `http://localhost:8080/v1/groceries`,
-        body: { name, description, storeId },
+        body: { name, description },
     });
 }
 
