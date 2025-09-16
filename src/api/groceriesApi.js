@@ -19,9 +19,43 @@ const postGrocery = (params) => {
         body: { name, description },
     });
 }
+const postGroceryItem = (groceryId, params) => {
+    const {
+        quantity,
+        notes,
+        actualPrice,
+        estimatedPrice,
+        productId,
+        storeId
+    } = params;
+    return apiInstance.post({
+        url: `http://localhost:8080/v1/groceries/${groceryId}/item`,
+        body: {
+            quantity,
+            notes,
+            actualPrice,
+            estimatedPrice,
+            productId,
+            storeId
+        },
+    });
+}
+const putGroceryItem = (groceryId, params) => {
+    const {
+        quantity,
+    } = params;
+    return apiInstance.put({
+        url: `http://localhost:8080/v1/groceries/item/${groceryId}`,
+        body: {
+            quantity,
+        },
+    });
+}
 
 export default {
     getGroceries,
     getGroceryById,
     postGrocery,
+    postGroceryItem,
+    putGroceryItem,
 };

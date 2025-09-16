@@ -9,6 +9,8 @@ export const ADD_GROCERY = 'ADD_GROCERY';
 export const ADD_GROCERY_SUCCESS = 'ADD_GROCERY_SUCCESS';
 
 export const SELECT_GROCERY_ITEM = 'SELECT_GROCERY_ITEM';
+export const UPDATE_SELECTED_GROCERY_ITEM = 'UPDATE_SELECTED_GROCERY_ITEM';
+export const ADD_SELECTED_GROCERY_ITEM = 'ADD_SELECTED_GROCERY_ITEM';
 
 export const getGroceries = () => {
     return {
@@ -58,11 +60,11 @@ export const addGrocerySuccess = (payload) => {
         type: ADD_GROCERY_SUCCESS, payload,
     }
 }
-
 export const selectGroceryItem = ({
     id,
     category,
     subcategory,
+    quantity = 0,
     actualPrice = 0,
     estimatedPrice = 0,
     product = {},
@@ -75,6 +77,7 @@ export const selectGroceryItem = ({
             product,
             category,
             subcategory,
+            quantity,
             estimatedPrice,
             actualPrice,
             store,
@@ -82,3 +85,46 @@ export const selectGroceryItem = ({
     };
 }
 
+export const addSelectedGroceryItem = (payload) => {
+    return {
+        type: ADD_SELECTED_GROCERY_ITEM, payload,
+    }
+}
+
+
+/**
+ * {
+ *     "quantity": 1,
+ *     "notes": "Notes 1",
+ *     "actualPrice": 100,
+ *     "estimatedPrice": 0,
+ *     "productId": 3,
+ *     "storeId": 1
+ * }
+ */
+// export const addGroceryItem = ({
+//     quantity = 0,
+//     notes,
+//     actualPrice = 0,
+//     estimatedPrice = 0,
+//     productId = null,
+//     storeId = null,
+// }) => {
+//     return {
+//         type: ADD_GROCERY_ITEM,
+//         payload: {
+//             quantity,
+//             notes,
+//             actualPrice,
+//             estimatedPrice,
+//             productId,
+//             storeId,
+//         }
+//     }
+// }
+
+export const updateSelectedGroceryItem = (payload) => {
+    return {
+        type: UPDATE_SELECTED_GROCERY_ITEM, payload,
+    }
+}

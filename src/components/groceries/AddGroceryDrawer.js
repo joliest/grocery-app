@@ -4,7 +4,7 @@ import {useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import StandardTextField from '../form/inputs/StandardTextField';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addGrocery} from '../../actions/groceries';
 
 export default function AddGroceryDrawer() {

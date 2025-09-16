@@ -32,7 +32,10 @@ const GroceryPage = () => {
                 <AddGroceryItemAutocomplete dispatch={dispatch} />
             </Grid>
             <Grid size={12}>
-                <GroceryItemDataGrid list={selectedGrocery?.list} />
+                <GroceryItemDataGrid
+                    list={selectedGrocery?.list}
+                    dispatch={dispatch}
+                />
             </Grid>
         </Grid>
     )

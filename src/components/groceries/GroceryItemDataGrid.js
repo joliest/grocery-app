@@ -1,4 +1,6 @@
 import GenericDataGrid from '../subcomponent/GenericDataGrid';
+import PropTypes from 'prop-types';
+import {updateSelectedGroceryItem} from '../../actions/groceries';
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -22,17 +24,13 @@ const columns = [
         editable: false,
         valueGetter: (value, row) => `₱${value}`,
     },
-    // {
-    //     field: 'quantity',
-    //     headerName: 'Quantity',
-    //     type: 'number',
-    //     width: 110,
-    //     editable: false,
-    //     valueGetter: (value, row) =>  {
-    //         console.log(value)
-    //         console.log(row)
-    //     },
-    // },
+    {
+        field: 'quantity',
+        headerName: 'Quantity',
+        type: 'number',
+        width: 110,
+        editable: true,
+    },
     {
         field: 'subcategory',
         headerName: 'Subcategory',
@@ -58,16 +56,30 @@ const GroceryItemDataGrid = (props) => {
             subcategory: listItem.product.subcategory,
             actualPrice: listItem.actualPrice,
             store: listItem.store,
+            quantity: listItem.quantity,
         };
     });
+
+    const updateQuantityById = (id, quantity) => {
+        const payload = { id, quantity };
+        props.dispatch(updateSelectedGroceryItem(payload))
+    }
 
     return (
         <GenericDataGrid
             id="grocery-item-data-grid"
             columns={columns}
             rows={rows}
+            processRowUpdate={(newVal, oldVal) => {
+                return props.dispatch(updateSelectedGroceryItem(newVal));
+            }}
         />
     );
+};
+
+GroceryItemDataGrid.propTypes = {
+    list: PropTypes.array,
+    dispatch: PropTypes.func.isRequired,
 };
 
 export default GroceryItemDataGrid;

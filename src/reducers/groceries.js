@@ -40,15 +40,33 @@ const groceryReducer = (state = initialState, action) => {
                 ...state,
                 selectedGrocery: action.payload,
             };
-        case groceryActions.SELECT_GROCERY_ITEM:
+        case groceryActions.ADD_SELECTED_GROCERY_ITEM:
             return {
                 ...state,
                 selectedGrocery: {
                     ...state.selectedGrocery,
                     list: [
-                        ...state.selectedGrocery.list,
                         action.payload,
+                        ...state.selectedGrocery.list,
                     ],
+                },
+            };
+        case groceryActions.UPDATE_SELECTED_GROCERY_ITEM:
+            const selectedGroceryList = JSON.parse(JSON.stringify(state.selectedGrocery.list));
+            const updatedGroceryList = selectedGroceryList.map((item) => {
+                if (item.id === action.payload.id) {
+                    return {
+                        ...item,
+                        ...action.payload,
+                    };
+                }
+                return item;
+            });
+            return {
+                ...state,
+                selectedGrocery: {
+                    ...state.selectedGrocery,
+                    list: updatedGroceryList,
                 },
             };
         default:

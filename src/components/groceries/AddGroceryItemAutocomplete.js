@@ -10,6 +10,7 @@ const AddGroceryItemAutocomplete = (props) => {
         productSearcher.searchProducts(value)
     };
     const handleGetOptionLabel = (option) => option.product?.name || '';
+    const handleGetOptionKey = (option) => option.product?.id;
     const handleOnSelectGroceryItem = (val) => {
         if (val) {
             props.dispatch(selectGroceryItem(val));
@@ -23,6 +24,7 @@ const AddGroceryItemAutocomplete = (props) => {
             onChange={handleOnSelectGroceryItem}
             onInputChange={handleOnSearchGroceryItem}
             getOptionLabel={handleGetOptionLabel}
+            getOptionKey={handleGetOptionKey}
             clearOnSelect
         />
     );

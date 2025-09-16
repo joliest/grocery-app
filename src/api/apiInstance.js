@@ -25,7 +25,19 @@ const post = ({ url, body }) => {
     return defaultFetch(url, options);
 }
 
+const put = ({ url, body }) => {
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    }
+    return defaultFetch(url, options);
+}
+
 
 export default {
-    get, post,
+    get, post, put,
 }
